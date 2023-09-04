@@ -32,7 +32,7 @@ def get_fp_binary_representation(n):
     # Take user input for the number of
     # decimal places user want result as
     # p = int(input("Enter the number of decimal places of the result : \n"))
-    p = 48
+    p = 96
 
     # Step 1:  split the number into two parts - both strings
     front, back = str(n).split('.')
@@ -76,12 +76,12 @@ def get_fp_binary_representation(n):
     else:
         exponent = len(front_bin)-1
         mantissa = front_bin[1:] + back_bin
-        mantissa_truncated = mantissa[0:23]
+        mantissa_truncated = mantissa[0:52]
 
     true_result = sign + "1." + mantissa_truncated + " x 2^(" + str(exponent) + ")"
     print(true_result)
 
-    # Step 6:  Convert to 32-bit floating point representation
+    # Step 6:  Convert to 64-bit floating point representation
     if int(front) < 0:
         bit1 = "1"
     else:
@@ -89,14 +89,14 @@ def get_fp_binary_representation(n):
 
     exp = int(exponent)+127
     exp_binary_rep = convert_int_to_binary(exp)
-    if len(exp_binary_rep) < 8:
+    if len(exp_binary_rep) < 11:
         exp_binary_rep = "0" + exp_binary_rep
 
-    if len(mantissa_truncated) < 23:
-        mantissa_truncated = mantissa_truncated + (23-len(mantissa_truncated))*"0"
+    if len(mantissa_truncated) < 52:
+        mantissa_truncated = mantissa_truncated + (52-len(mantissa_truncated))*"0"
 
-    if len(mantissa_truncated) > 23:
-        mantissa_truncated = mantissa_truncated[0:23]
+    if len(mantissa_truncated) > 52:
+        mantissa_truncated = mantissa_truncated[0:52]
 
     res = bit1 + "|" + exp_binary_rep + "|" + mantissa_truncated
     return res
